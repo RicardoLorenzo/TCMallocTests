@@ -80,11 +80,11 @@ int TCMallocTestMenu::printMenu() {
           switch(ch) {
                case KEY_UP:
                      i--;
-                     i = (i < 0) ? list_size : i;
+                     i = (i < 0) ? list_size - 1 : i;
                      break;
                case KEY_DOWN:
                      i++;
-                     i = (i > list_size) ? 0 : i;
+                     i = (i >= list_size) ? 0 : i;
                      break;
           }
 

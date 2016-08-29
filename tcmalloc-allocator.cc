@@ -68,12 +68,12 @@ char* TCMallocAllocator::getStats() {
 }
 
 char* TCMallocAllocator::getVersion() {
-   std::ostringstream text;
+   output_buffer.str("");
+   output_buffer.clear();
    int major;
    int minor;
    const char* patch;
    const char* human_version = tc_version(&major, &minor, &patch);
-   text << tc_version(&major, &minor, &patch) << '\n';
-   //printf("Version: %d.%d%s\n", major, minor, patch);
-   return const_cast<char*>(text.str().c_str());
+   output_buffer << tc_version(&major, &minor, &patch) << '\n';
+   return const_cast<char*>(output_buffer.str().c_str());
 }

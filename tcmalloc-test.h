@@ -8,7 +8,6 @@
 #include <queue>
 #include <mutex>
 #include <sstream>
-#include <fstream>
 
 #include "gperftools/malloc_hook.h"
 #include "gperftools/malloc_extension.h"
@@ -27,15 +26,12 @@ static const double FLAGS_memalign_min_fraction = 0;    // min expected%
 static const double FLAGS_memalign_max_fraction = 0.4;  // max expected%
 static const double FLAGS_memalign_max_alignment_ratio = 6;
 
-static std::ofstream log_file(
-        "/tmp/debug.log", std::ios_base::out | std::ios_base::app);
-
 class TCMallocTestMenu {
    private:
        WINDOW *win_stats;
        WINDOW *win_menu;
 
-       void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string); 
+       void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string);
 
    public:
        static const int MENU_LOAD_OBJECTS = 0;
@@ -116,7 +112,7 @@ class TCMallocTestThread {
    TCMallocTestThread(int id)
      : id_(id),
        heap_size_(0) {
-     // initialize random seed: 
+     // initialize random seed:
      srand(time(NULL));
      tc_allocator = new TCMallocAllocator;
    }

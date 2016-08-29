@@ -16,9 +16,8 @@ void TCMallocTestMenu::printStats(char* message) {
 
      if(strlen(message) > 0) {
          input_buffer.str(message);
-         std::string line;    
+         std::string line;
          for( ; std::getline(input_buffer, line); rows++) {
-             log_file << "LINE: " << line << "\r\n";
              lines.push_back(line);
          }
      } else {
@@ -27,7 +26,6 @@ void TCMallocTestMenu::printStats(char* message) {
      free(input_buffer);
 
      int cols = COLS / 2, startx = (COLS - cols) / 2;
-     log_file << "WIN: " << lines.size() << "/" << row << "\r\n";
      win_stats = newwin(lines.size() + 2, cols, 1, startx);
      box(win_stats, 0, 0);
 
@@ -51,42 +49,42 @@ int TCMallocTestMenu::printMenu() {
      list[TCMallocTestMenu::MENU_DELETE_OBJECTS] = const_cast<char*>("Delete 50 objects");
      list[TCMallocTestMenu::MENU_QUIT] = const_cast<char*>("Quit");
      char item[15];
-     int ch, i = 0;
- 
+     int ch, i = 0, list_size = sizeof(list)/sizeof(list[0]);
+
      int cols = COLS / 2;
      int startx = (COLS - cols) / 2;
-     win_menu = newwin((sizeof(list)/sizeof(list[0])) + 2, cols, 20, startx);
+     win_menu = newwin(list_size + 2, cols, 20, startx);
      box(win_menu, 0, 0 );
-     
+
      // now print all the menu items and highlight the first one
-     for(i = 0; i < (sizeof(list)/sizeof(list[0])); i++) {
-        if(i == 0) 
+     for(i = 0; i < list_size; i++) {
+        if(i == 0)
             wattron(win_menu, A_STANDOUT); // highlights the first item.
         else
             wattroff(win_menu, A_STANDOUT);
         sprintf(item, "%-15s", list[i]);
         mvwprintw(win_menu, i+1, 2, "%s", item);
      }
- 
+
      wrefresh(win_menu); // update the terminal screen
- 
+
      i = 0;
      keypad(win_menu, TRUE ); // enable keyboard input for the window.
-     
+
      // get the input
-     while((ch = wgetch(win_menu)) != 'q') { 
+     while((ch = wgetch(win_menu)) != 'q') {
           // right pad with spaces to make the items appear with even width.
-          sprintf(item, "%-15s",  list[i]); 
-          mvwprintw(win_menu, i+1, 2, "%s", item); 
+          sprintf(item, "%-15s",  list[i]);
+          mvwprintw(win_menu, i+1, 2, "%s", item);
           // use a variable to increment or decrement the value based on the input.
           switch(ch) {
                case KEY_UP:
                      i--;
-                     i = ( i<0 ) ? 4 : i;
+                     i = (i < 0) ? list_size : i;
                      break;
                case KEY_DOWN:
                      i++;
-                     i = ( i>4 ) ? 0 : i;
+                     i = (i > list_size) ? 0 : i;
                      break;
           }
 

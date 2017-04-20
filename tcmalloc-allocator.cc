@@ -24,7 +24,7 @@ int TCMallocAllocator::Uniform(int n) {
 
 // Allocate memory.  Randomly choose between malloc() or posix_memalign().
 void* TCMallocAllocator::alloc(size_t size) {
-   if(Uniform(100) < memalign_fraction_ * 100) {
+   if(kOSSupportsMemalign && Uniform(100) < memalign_fraction_ * 100) {
       // Try a few times to find a reasonable alignment, or fall back on malloc.
       for (int i = 0; i < 5; i++) {
          size_t alignment = 1 << Uniform(FLAGS_lg_max_memalign);

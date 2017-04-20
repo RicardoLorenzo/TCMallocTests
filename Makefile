@@ -4,7 +4,7 @@ CC=g++
 CFLAGS=-I. -g -Wall
 DEPS = tcmalloc-test.h
 
-LIBS=-ltcmalloc -lncurses -lm
+LIBS=-ltcmalloc -lncurses -lpthread -lm
 
 #%.o: $(DEPS)
 #	$(CC) -c $(LIBS) -o $@ %.cc $(CFLAGS)
@@ -12,16 +12,16 @@ LIBS=-ltcmalloc -lncurses -lm
 tcmalloc-test: clean tcmalloc-allocator.o tcmalloc-thread.o tcmalloc-menu.o tcmalloc-test.o
 	$(CC) -std=c++11 -o tcmalloc-test tcmalloc-test.o tcmalloc-allocator.o tcmalloc-menu.o tcmalloc-thread.o -I. $(LIBS)
 
-tcmalloc-test.o: 
+tcmalloc-test.o:
 	$(CC) -std=c++11 -g -c $(LIBS) -o tcmalloc-test.o tcmalloc-test.cc
 
-tcmalloc-allocator.o: 
+tcmalloc-allocator.o:
 	$(CC) -std=c++11 -g -c $(LIBS) -o tcmalloc-allocator.o tcmalloc-allocator.cc
 
-tcmalloc-thread.o: 
+tcmalloc-thread.o:
 	$(CC) -std=c++11 -g -c $(LIBS) -o tcmalloc-thread.o tcmalloc-thread.cc
 
-tcmalloc-menu.o: 
+tcmalloc-menu.o:
 	$(CC) -std=c++11 -g -c $(LIBS) -o tcmalloc-menu.o tcmalloc-menu.cc
 
 .PHONY: clean
